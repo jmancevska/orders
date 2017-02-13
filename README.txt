@@ -45,6 +45,7 @@ Assumptions:
 What is not done:
 
 	- Functionality for inserting/updating/deleting data in the database.
+	- Separate billing information for the users.
 	- Making pretty UI.
 	- UI JavaScript validation.
 	- Files cleanup.
