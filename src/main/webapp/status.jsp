@@ -11,6 +11,7 @@
 <h2>Thank you for submitting your request.</h2>
 <div style="color:red"><%=request.getAttribute("error")  %></div>
 <div style="color:blue"><%=request.getAttribute("status")  %></div>
+<br>
 
 </body>
 </html>
