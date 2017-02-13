@@ -1,5 +1,8 @@
 package com.benevity.orders;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.util.List;
@@ -18,12 +21,12 @@ import com.benevity.orders.services.UserService;
  * 
  */
 public class AsyncOrdersProcessor implements Runnable {
-	// private AsyncContext asyncContext;
 	private String company;
 	private String user;
 	private Date startDate;
 	private Date endDate;
 	private String country;
+	private String uniqueId;
 	
 	private List<Order> orders;
 
@@ -31,17 +34,25 @@ public class AsyncOrdersProcessor implements Runnable {
 //	}
 
 	public AsyncOrdersProcessor(String company, String user, Date startDate,
-			Date endDate, String country) {
+			Date endDate, String country, String uniqueId) {
 		this.company = company;
 		this.user = user;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.country = country;
+		this.uniqueId = uniqueId;
 	}
 
-	// public AsyncOrdersProcessor(AsyncContext asyncCtx) {
-	// this.asyncContext = asyncCtx;
-	// }
+	
+
+	/**
+	 * @return the orders
+	 */
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -60,6 +71,7 @@ public class AsyncOrdersProcessor implements Runnable {
 				oCompany = CompanyService.listCompanyById(companyId);
 				if (oCompany == null) {
 					// Report an error
+					System.out.println("Invalid company.");
 				}
 			}
 			if (user != null && !user.equals("0")) {
@@ -67,6 +79,7 @@ public class AsyncOrdersProcessor implements Runnable {
 				oUser = UserService.listUserById(userId);
 				if (oUser == null) {
 					// Report an error
+					System.out.println("Invalid user.");
 				}
 			}
 			
@@ -87,8 +100,14 @@ public class AsyncOrdersProcessor implements Runnable {
 			// Create the XML compatible list
 			Orders ordersList = new Orders();
 			ordersList.setOrders(orders);
+			
+			File file = new File(uniqueId);
 
-			XmlConvertor.toXml(ordersList, System.out);
+			try {
+				XmlConvertor.toXml(ordersList, new FileOutputStream(file));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
