@@ -6,12 +6,12 @@ GitHub location:
 
 Approach:
 
-	- Java Servlet for triggering the query from the UI.
-	- Hibernate for the DB interactions.
-	- JAXB for marshaling the objects into XML.
 	- Java 7
 	- Tomcat 7
 	- Maven 
+	- Java Servlet for triggering the query from the UI.
+	- Hibernate for the DB interactions.
+	- JAXB for marshaling the objects into XML.
 
 DB:
 
@@ -40,7 +40,18 @@ Assumptions:
 	- All the prices in the 'items' table are in one currency.
 	- The database has some data.
 
+	
+What is done:
 
+	- Web page that sends a request to the API for getting a list of orders.
+	- The database retrieval is done asynchronously.
+	- Filtering the list based on input parameters.
+	- Date format validation.
+	- Getting the list of orders from the DB, based on the input parameters.
+	- Marshaling the orders list into XML file.
+	- Only one XML file can be generated per session and the download/retrieval of the file,
+	  is limited only for that session.  This can be modified to be based per user/company.
+	- Notifying the original request that the file is ready for download, or there was an error.
 
 What is not done:
 
