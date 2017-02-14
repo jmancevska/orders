@@ -16,12 +16,11 @@ import com.benevity.orders.services.OrderService;
 import com.benevity.orders.services.UserService;
 
 
-
 /**
  * @author Jasminka Mancevska
  * 
  */
-public class AsyncOrdersProcessor implements Runnable {
+public class OrdersProcessor implements Runnable {
 	private String company;
 	private String user;
 	private Date startDate;
@@ -31,10 +30,10 @@ public class AsyncOrdersProcessor implements Runnable {
 	
 	private List<Order> orders;
 
-//	public AsyncOrdersProcessor() {
+//	public OrdersProcessor() {
 //	}
 
-	public AsyncOrdersProcessor(String company, String user, Date startDate,
+	public OrdersProcessor(String company, String user, Date startDate,
 			Date endDate, String country, String uniqueId) {
 		this.company = company;
 		this.user = user;

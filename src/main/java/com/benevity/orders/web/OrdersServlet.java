@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.benevity.orders.AsyncOrdersProcessor;
+import com.benevity.orders.OrdersProcessor;
+
 
 /**
  * @author Jasminka Mancevska
@@ -32,8 +33,8 @@ public class OrdersServlet extends HttpServlet {
 	                  HttpServletResponse response) {
 		
 		final String sessionId = request.getSession().getId();
-		final String relativeWebPath = "/";
-		AsyncOrdersProcessor ordersProcessor = null;
+		final String relativeWebPath = "/files";
+		OrdersProcessor ordersProcessor = null;
 		String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
 		String fileFullPath = absoluteDiskPath + File.separator + sessionId + ".xml";
 
@@ -60,7 +61,7 @@ public class OrdersServlet extends HttpServlet {
 			
 			public void onComplete(AsyncEvent event) throws IOException {
 				writeToResponse(event, "The process completed. " +
-						"<a href=\"" + sessionId + ".xml\">download file</a>" 
+						"<a href=\"files/" + sessionId + ".xml\">download file</a>" 
 						 );
 			}
 		});
@@ -103,7 +104,7 @@ public class OrdersServlet extends HttpServlet {
 
 		if (errMessage.length() == 0) {
 			statusMessage = "Please wait for the result set.";
-			ordersProcessor = new AsyncOrdersProcessor(company, user, dStartDate, dEndDate, country, fileFullPath);
+			ordersProcessor = new OrdersProcessor(company, user, dStartDate, dEndDate, country, fileFullPath);
 			executor.execute(ordersProcessor);
 		}
 		request.setAttribute("error", errMessage);
